@@ -1,5 +1,5 @@
+from typing import List
 from pydantic.main import BaseModel
-
 
 #Request
 class UserRegister(BaseModel):
@@ -21,6 +21,10 @@ class UserInfo(HttpResponse):
     id: int
     email: str = None
     name: str = None
+
+class AssetsInfo(HttpResponse):
+    data : list = None
+
     
 #Object
 class UserToken(BaseModel):

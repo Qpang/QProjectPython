@@ -143,7 +143,7 @@ class Assets(Base, BaseSchema):
     name_kor = Column(String(length=2000), nullable=True)
     price = Column(String(length=255), nullable=True)
     
-class Notice(Base, BaseSchema):
+class Notices(Base, BaseSchema):
     __tablename__ = "xangle_notice"
     currency = Column(String(length=255), nullable=True)
     title = Column(String(length=255), nullable=True)

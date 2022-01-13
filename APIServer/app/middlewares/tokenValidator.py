@@ -27,6 +27,7 @@ async def access_control(request: Request, call_next):
         
         headers = request.headers
         url = request.url.path
+        cookie = request.cookies
         
         # Token 검사가 필요없는 Url 확인
         if await url_pattern_check(url, EXCEPT_PATH_REGEX) or url in EXCEPT_PATH_LIST:

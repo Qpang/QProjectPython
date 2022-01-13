@@ -8,7 +8,9 @@ base_dir = path.dirname(path.abspath(__file__))
 from fastapi import FastAPI
 
 #WebDriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
@@ -16,20 +18,28 @@ from Database.schema import Assets, Notice
 from Database.conn import database
 from APIServer.app.common.config import config
 
-def initial_webdriver():
+def initial_webdriver_chrome():
     #BackGround로 실행할지에 대한 Option 설정
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
 
-    #webdriver 생성
-    driver = webdriver.Chrome(f'{base_dir}/chromedriver',options=options) #driverManger에서 생성
-
-    #driver = webdriver.Chrome('C:/Users/Qpang/Desktop/test/chromedriver',options=options) #driver Path를 지정하여 생성
+    #webdriver 생성 
+    driver = webdriver.Chrome(ChromeDriverManager().install(),options=options) #driverManger에서 생성
+    #driver = webdriver.Chrome(f'{base_dir}/chromedriver',options=options) #driverManger에서 생성
     return driver
 
+
+def initial_webdriver_firefox():
+    #BackGround로 실행할지에 대한 Option 설정
+   options = Options()
+   options.add_argument('--headless') # EN SEGUNDO PLANO, SIN GUI
+   driver = webdriver.Firefox(executable_path='/usr/bin/geckodriver', options=options)
+   return driver
+
+
 def xangle():
-    driver = initial_webdriver()
+    driver = initial_webdriver_firefox()
     
     while True :
         if len(driver.window_handles) > 1 :
@@ -69,7 +79,7 @@ def xangle():
     return
 
 def klayswap():
-    driver = initial_webdriver()
+    driver = initial_webdriver_firefox()
     
     driver.get('https://klayswap.com/assets')
     driver.implicitly_wait(20)
@@ -86,7 +96,7 @@ def klayswap():
             coin_info = dict()
             coin_info['currency'] = coininfo[1]
             coin_info['name_kor'] = coininfo[0]
-            coin_info['price'] = coininfo[5].split(' ')[1]
+            coin_info['price'] = coininfo[3].split(' ')[1]
             
             assets = Assets.filter(currency = coin_info['currency'])
             if not assets.first():
