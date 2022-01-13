@@ -1,6 +1,6 @@
 # QProjectPython
 Collection Server 와 API Server 를 위한 Python 프로젝트 입니다.
-2022-01-03 이 프로젝트는 공용 프로젝트 입니다!!!!
+2022-01-13 이 프로젝트는 공용 프로젝트 입니다!!!!
 [FastAPI참고]
 https://github.com/riseryan89/notification-api
 
